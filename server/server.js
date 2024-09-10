@@ -11,6 +11,22 @@ dotenv.config();
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
 });
+// Search endpoint
+app.get("/search", async (request, response) => {
+  const q = request.query.q; // get the search query from the client
+
+  if (!q) {
+    return response.status(400).json({ message: "Search query missing" });
+  }
+
+  const apiKey = process.env.TMDB_API_KEY;
+  const apiUrl = `https://api.themoviedb.org/3/search/movie?query=${q}&api_key=${apiKey}`;
+
+  const result = await fetch(apiUrl);
+  const data = await result.json();
+  console.log(data);
+  response.status(200).json(data.results);
+});
 
 app.get("/users", async function (request, response) {
   const users = await db.query("SELECT * FROM week05projectusers");
