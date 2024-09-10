@@ -40,6 +40,12 @@ app.post("/add", async (request, response) => {
   }
 });
 
+app.get("/film", async (request, response) => {
+  filmID = request.query.filmID;
+  const result = await fetch(`https://api.themoviedb.org/3/movie/${filmID}`);
+  response.json(result);
+});
+
 // delete endpoint to remove from watchlist and/or seenlist
 app.delete("/list", async (request, response) => {
   const { list, filmID, username } = request.body;
