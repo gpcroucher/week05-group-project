@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import cors from "cors";
 import pg from "pg";
 import dotenv from "dotenv";
@@ -59,10 +59,36 @@ app.post("/list", async (request, response) => {
       [request.body.filmID, request.body.username]
     );
     response.json(post);
-    } else {
+  } else {
     response.status(400).json({ error: "invalid list type" });
-    }
-  });
+  }
+});
+
+app.delete("/list", async function (request, response) {
+  const { list, filmID, username } = request.body;
+
+  if (list === "seenlist") {
+    const result = await db.query(
+      `
+      UPDATE week05projectusers
+      SET seenlist = ARRAY_REMOVE(seenlist, $1)
+      WHERE username = $2`,
+      [filmID, username]
+    );
+    response.json({ message: "Film removed from seenlist", result });
+  } else if (list === "watchlist") {
+    const result = await db.query(
+      `
+      UPDATE week05projectusers
+      SET watchlist = ARRAY_REMOVE(watchlist, $1)
+      WHERE username = $2`,
+      [filmID, username]
+    );
+    response.json({ message: "Film removed from watchlist", result });
+  } else {
+    response.status(400).json({ error: "Invalid list type" });
+  }
+});
 
 app.listen(8080, function () {
   console.log("App is running on port 8080");
