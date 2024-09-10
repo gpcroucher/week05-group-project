@@ -19,7 +19,7 @@ app.get("/search", async (request, response) => {
     return response.status(400).json({ message: "Search query missing" });
   }
 
-  const apiKey = process.env.TMDB_API_KEY;
+  const apiKey = process.env.TMDB_API_KEY; // Get the api key from .env
   const apiUrl = `https://api.themoviedb.org/3/search/movie?query=${q}&api_key=${apiKey}`;
 
   const result = await fetch(apiUrl);
