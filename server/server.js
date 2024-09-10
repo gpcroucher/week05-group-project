@@ -27,12 +27,12 @@ app.get("/search", async (request, response) => {
   console.log(data);
   response.status(200).json(data.results);
 });
-
+// user info endpoint
 app.get("/users", async function (request, response) {
   const users = await db.query("SELECT * FROM week05projectusers");
   response.json(users.rows);
 });
-
+//endpoint - listing seen list and watch list depending on query
 app.get("/list", async function (request, response) {
   const query = request.query;
   console.log(query);
@@ -79,7 +79,7 @@ app.post("/list", async (request, response) => {
     response.status(400).json({ error: "invalid list type" });
   }
 });
-
+//delete endpoint to remove from watchlist and/or seenlist
 app.delete("/list", async function (request, response) {
   const { list, filmID, username } = request.body;
 
