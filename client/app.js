@@ -1,3 +1,4 @@
+//function to create delete button
 function createDeleteButton(filmID, listType, username) {
   const deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
@@ -29,7 +30,7 @@ function removeFilm(filmID) {
     filmElement.remove();
   }
 }
-
+//not done this yet, but this is assuming we will render it
 function renderFilm(film, listType, username) {
   const filmElement = document.createElement("div");
   filmElement.id = `film-${film.id}`;
