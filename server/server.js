@@ -22,27 +22,12 @@ app.get("/search", async (request, response) => {
   }
 
   const apiKey = process.env.TMDB_API_KEY;
-  // const apiUrl = `https://api.themoviedb.org/3/search/movie?query=${q}&api_key=${apiKey}`;
   const apiUrl = `https://api.themoviedb.org/3/search/movie?query=${q}&api_key=${apiKey}`;
 
-  // try {
-  //   const response = await fetch(apiUrl);
-  //   const data = await response.json();
-
-  //   if (response.ok) {
-  //     // Return only the 'results' array from the TMDB response
-  //     response.status(200).json(data.results);
-  //   } else {
-  //     response.status(response.status).json({ message: data.status_message });
-  //   }
-  // } catch (error) {
-  //   console.error("Error fetching from TMDB:", error);
-  //   response.status(500).json({ error: "Internal Server Error" });
-  // }
   const result = await fetch(apiUrl);
   const data = await result.json();
   console.log(data);
-  response.json(data);
+  response.status(200).json(data.results);
 });
 
 app.listen(3000, () => {
