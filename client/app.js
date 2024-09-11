@@ -76,6 +76,7 @@ function createCard(movieObject) {
   movieTitle.classList.add("card-title"); // add class to title element
   const movieRdate = document.createElement("h3"); // create release date element
   movieRdate.classList.add("release-date"); // add release-date class
+  movieRdate.innerText = movieObject.release_date;
   const moviePoster = document.createElement("img"); // create img element for poster
   moviePoster.src =
     "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + movieObject.poster_path; // add src to img element
@@ -87,7 +88,7 @@ function createCard(movieObject) {
   const movieGenresContainer = document.createElement("div"); //create container for genres
   movieGenresContainer.classList.add("genre-container"); //add class
   movieGenreIDs.forEach((genre) => {
-    genreText = document.createElement("h3");
+    const genreText = document.createElement("h3");
     genreText.classList.add("genre-text");
     genreText.innerText = genreMap[genre] + " ";
     movieGenresContainer.appendChild(genreText);
@@ -140,6 +141,7 @@ async function addToWatch(filmID) {
       username: username,
     }),
   });
+  notifyUser("Movie added to watch list!");
 }
 //Function implemented by Will
 async function addToSeen(filmID) {
@@ -154,6 +156,7 @@ async function addToSeen(filmID) {
       username: username,
     }),
   });
+  notifyUser("Movie added to seen list!");
 }
 
 async function searchTMDB(event) {
@@ -175,13 +178,28 @@ async function searchTMDB(event) {
   const data = await response.json();
   console.log(data);
   data.forEach((movie) => {
-    card = createCard(movie);
+    const card = createCard(movie);
     searchResults.appendChild(card);
   });
   // TODO: write displaySearchResults() function [cards]
   // displaySearchResults(data);
   searchForm.reset();
   return data;
+}
+
+function notifyUser(notification) {
+  const notificationContainer = document.getElementById(
+    "notification-container"
+  );
+  const notificationText = document.getElementById("notification-text");
+  notificationContainer.classList.add("show");
+  notificationContainer.classList.remove("hidden");
+  notificationText.innerText = notification;
+  setTimeout(() => {
+    notificationContainer.classList.remove("show");
+    notificationContainer.classList.add("hidden");
+    notificationText.innerText = "";
+  }, 3000);
 }
 
 searchForm.addEventListener("submit", searchTMDB);

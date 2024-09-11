@@ -4,10 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <script src="app.js" defer></script>
+    <script type="module" src="app.js" defer></script>
     <title>Document</title>
   </head>
   <body>
+    <div id="notification-container" class="hidden">
+      <h2 id="notification-text"></h2>
+    </div>
     <div id="search-bar-container">
       <form id="searchform">
         <input type="text" id="searchinput" name="searchinput" />
