@@ -158,6 +158,7 @@ async function addToSeen(filmID) {
 
 async function searchTMDB(event) {
   event.preventDefault();
+  searchResults.innerHTML = "";
   const searchFormData = new FormData(searchForm);
   const result = Object.fromEntries(searchFormData);
   const query = result.searchinput;
