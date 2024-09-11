@@ -41,9 +41,46 @@ app.post("/add", async (request, response) => {
 });
 
 app.get("/film", async (request, response) => {
-  filmID = request.query.filmID;
-  const result = await fetch(`https://api.themoviedb.org/3/movie/${filmID}`);
-  response.json(result);
+  const filmID = request.query.filmid;
+  console.log(filmID);
+  // check if it's in database
+  const dbresult = await db.query(
+    `SELECT * FROM week05projectfilms WHERE id = ${filmID}`
+  );
+  if (dbresult.rowCount === 0) {
+    const result = await fetch(
+      `https://api.themoviedb.org/3/movie/${filmID}?api_key=${process.env.TMDB_API_KEY}`
+    );
+    const resultData = await result.json();
+    const genres = [];
+    for (const genre of resultData.genres) {
+      genres.push(genre.id);
+    }
+    console.log(`${genres}`);
+    const year = resultData.release_date.split("-")[0];
+    await db.query(
+      `INSERT INTO week05projectfilms (id, title, year, genres) VALUES (
+      ${resultData.id},
+      '${resultData.title}',
+      ${year},
+      ARRAY[${genres}]
+      )` // fix genres
+    );
+    const newObject = {
+      id: resultData.id,
+      title: resultData.title,
+      year: year,
+      genres: genres,
+    };
+    response.json(newObject);
+  } else {
+    response.json(dbresult.rows[0]);
+  }
+});
+
+app.get("/films", async (_, response) => {
+  const result = await db.query(`SELECT * FROM week05projectfilms`);
+  response.json(result.rows);
 });
 
 // delete endpoint to remove from watchlist and/or seenlist
