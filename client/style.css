@@ -19,30 +19,29 @@ body {
   text-align: right;
   position: sticky;
   display: flex;
-  top: 10px;
   right: 10px;
-  /* margin-right: 100px; */
+  justify-content: space-between;
+  align-items: center;
 }
 .logo {
   width: 200px;
-  height: 100px;
-  padding: 5px;
+  height: 110px;
   margin-left: 20px;
 }
 
-.navigation > ul > li {
+/* .navigation > ul > li {
   list-style: none;
   align-items: end;
   padding: 0px 20px 0px 40px;
-  border: 1px soild black;
+  border: 1px solid black;
 }
 .navigation a {
   text-decoration: none;
   color: #e19d18;
 }
 .navigation a:hover {
-  color: rgb(218, 40, 40);
-}
+  color: rgb(218, 40, 40); 
+}*/
 .featuredMovies {
   border: 1px solid blue;
   height: 600px;
@@ -68,10 +67,12 @@ body {
   color: white;
 }
 .movieDisplay {
-  width: 600px;
+  width: 100vw;
+  height: 500px;
 }
 footer {
   border: 1px solid purple;
+  height: 50px;
 }
 
 Google Fonts .lato-thin {
