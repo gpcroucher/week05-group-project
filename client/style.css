@@ -1,5 +1,7 @@
 /* Colour Pallete 
 #1a3642 teal
+#152b34 darker
+#2e5160 lighter
 #e19d18 yellow
 */
 
@@ -34,6 +36,9 @@ body {
   width: 100%;
   height: auto;
   /* opacity: 0.3; */
+}
+.featuredMovies > img {
+  box-shadow: 1px 1px 2px 2px #152b34;
 }
 .imageSliderNavigation {
 }
