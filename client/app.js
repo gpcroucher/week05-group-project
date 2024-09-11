@@ -1,3 +1,5 @@
+const serverURL = import.meta.env.VITE_SERVER_URL;
+
 // Jon did this =)
 let username = "";
 window.onload = function () {
@@ -9,7 +11,6 @@ window.onload = function () {
   }
 };
 
-const serverURL = "Http://localhost";
 const genreMap = {
   28: "Action",
   12: "Adventure",
@@ -49,7 +50,7 @@ function createDeleteButton(filmID, listType, username) {
 }
 
 async function deleteFilm(filmID, listType, username) {
-  await fetch(`http://localhost:8080/list`, {
+  await fetch(`${serverURL}/list`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -87,7 +88,7 @@ function createCard(movieObject) {
   const movieGenresContainer = document.createElement("div"); //create container for genres
   movieGenresContainer.classList.add("genre-container"); //add class
   movieGenreIDs.forEach((genre) => {
-    genreText = document.createElement("h3");
+    const genreText = document.createElement("h3");
     genreText.classList.add("genre-text");
     genreText.innerText = genreMap[genre] + " ";
     movieGenresContainer.appendChild(genreText);
@@ -129,7 +130,7 @@ function createCard(movieObject) {
 }
 //Function implemented by Will
 async function addToWatch(filmID) {
-  const response = await fetch(`http://localhost:8080/add`, {
+  const response = await fetch(`${serverURL}/add`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -143,7 +144,7 @@ async function addToWatch(filmID) {
 }
 //Function implemented by Will
 async function addToSeen(filmID) {
-  const response = await fetch(`http://localhost:8080/add`, {
+  const response = await fetch(`${serverURL}/add`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -165,7 +166,7 @@ async function searchTMDB(event) {
     alert("Please enter a search term");
     return;
   }
-  const response = await fetch(`http://localhost:8080/search?q=${query}`);
+  const response = await fetch(`${serverURL}/search?q=${query}`);
 
   if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -174,7 +175,7 @@ async function searchTMDB(event) {
   const data = await response.json();
   console.log(data);
   data.forEach((movie) => {
-    card = createCard(movie);
+    const card = createCard(movie);
     searchResults.appendChild(card);
   });
   // TODO: write displaySearchResults() function [cards]
