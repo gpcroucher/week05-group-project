@@ -3,9 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="app.js" defer></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./app.js" defer></script>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <title>OverRated</title>
   </head>
-  <body></body>
+  <body>
+    <div class="websiteContainer lato-bold">
+      <section class="menu">
+        <div class="logo"><img src="./assets/logo.png" /></div>
+        <div class="navigation">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Movies</a></li> 
+          </ul>
+        </div>
+
+      </section><!--  Menu container -->
+      <section class="featuredMovies"><img src="./assets/1.jpg">
+        <div class="imageSliderNavigation"></div><!--  Controling the main header images container -->
+        <div id="search-bar-container">
+          <form id="searchform">
+            <input type="text" id="searchinput" name="searchinput" />
+            <button type="submit" id="searchsubmit">Search</button>
+          </form>
+        </div><!--  Search Bar container -->
+      </section><!--  Featured Movies container -->
+      <section class="movieDisplay"></section><!--  Where the movie cards get displayed container -->
+      <footer></footer>
+    </section> <!--  Web container -->
+      
+
+    </div>
+
+
+  </body>
 </html>

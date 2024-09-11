@@ -1,0 +1,135 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  /* lato Google font*/
+  background-color: #1a3642;
+  color: white;
+}
+
+.websiteContainer {
+  border: 1px solid red;
+  width: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu {
+  border: 1px solid pink;
+  height: 110px;
+  text-align: right;
+  position: sticky;
+  display: flex;
+  top: 10px;
+  right: 10px;
+  /* margin-right: 100px; */
+}
+.logo {
+  width: 200px;
+  height: 100px;
+  padding: 5px;
+  margin-left: 20px;
+}
+
+.navigation > ul > li {
+  list-style: none;
+  align-items: end;
+  padding: 0px 20px 0px 40px;
+  border: 1px soild black;
+}
+.navigation a {
+  text-decoration: none;
+  color: #e19d18;
+}
+.navigation a:hover {
+  color: rgb(218, 40, 40);
+}
+.featuredMovies {
+  border: 1px solid blue;
+  height: 600px;
+}
+.imageSliderNavigation {
+  border: 1px solid yellow;
+}
+#search-bar-container {
+  border: 1px solid red;
+  text-align: right;
+  margin-right: 100px;
+  color: rgb(102, 100, 100);
+  position: absolute;
+  text-align: right;
+  justify-content: last baseline;
+}
+#searchform {
+}
+#searchinput {
+}
+#searchsubmit {
+  background-color: #1a3642;
+  color: white;
+}
+.movieDisplay {
+  width: 600px;
+}
+footer {
+  border: 1px solid purple;
+}
+
+Google Fonts .lato-thin {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lato-light {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lato-regular {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-bold {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-black {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.lato-thin-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
