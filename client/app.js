@@ -91,11 +91,11 @@ function calculateAccuracy(userGuessWords, fullQuoteWords) {
   }
   return (correctWords / fullQuoteWords.length) * 100;
 }
-
+let fullQuote;
 async function startGame() {
   const response = await fetch(`http://localhost:8080/random-quote`);
   const data = await response.json();
-  const fullQuote = data.quote;
+  fullQuote = data.quote;
 
   const words = fullQuote.split(" ");
   const firstWord = words[0];
@@ -109,7 +109,7 @@ async function startGame() {
 }
 
 const quizForm = document.getElementById("quote-user-answer");
-quizForm.addEventListener("Submit", function (event) {
+quizForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const userGuess = document.getElementById("quote-guess").value;
@@ -117,6 +117,7 @@ quizForm.addEventListener("Submit", function (event) {
   const userGuessWords = splitIntoWords(userGuess);
 
   const accuracy = calculateAccuracy(userGuessWords, fullQuoteWords);
+  console.log(accuracy);
 
   const feedback = document.getElementById("feedback");
   if (accuracy >= 90) {
