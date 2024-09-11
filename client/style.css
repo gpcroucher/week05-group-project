@@ -1,6 +1,9 @@
+/* Colour Pallete 
+#1a3642
+#e19d18 */
+
 body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  /* lato Google font*/
+  font-family: "Lato", sans-serif;
   background-color: #1a3642;
   color: white;
 }
@@ -27,20 +30,24 @@ body {
   margin-left: 20px;
 }
 .featuredMovies {
-  height: 600px;
+  /* height: 600px; */
+  position: relative;
 }
 .imageSliderNavigation {
   /* border: 1px solid yellow; */
 }
 #search-bar-container {
   border: 1px solid red;
-  margin-right: 100px;
   color: rgb(102, 100, 100);
-  position: absolute;
-  text-align: right;
-  justify-content: flex-end;
+  /* position: absolute; */
+  /* text-align: right; */
 }
-#searchform {
+.searchform {
+  /* position: absolute; */
+  /* top: 80px; */
+  /* right: 0px; */
+  /* width: 200px; */
+  /* height: 100px; */
 }
 #searchinput {
 }
@@ -53,11 +60,14 @@ body {
   height: 500px;
 }
 footer {
-  border: 1px solid purple;
   height: 50px;
+  text-align: center;
+  padding-top: 12px;
 }
 
-Google Fonts .lato-thin {
+/* Google Fonts  */
+
+.lato-thin {
   font-family: "Lato", sans-serif;
   font-weight: 100;
   font-style: normal;
