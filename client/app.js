@@ -8,7 +8,7 @@ function createDeleteButton(filmID, listType, username) {
 
   deleteButton.addEventListener("click", async function () {
     await deleteFilm(filmID, listType, username);
-    removeFilm(FilmID);
+    removeFilm(filmID);
   });
   return deleteButton;
 }
@@ -19,7 +19,7 @@ async function deleteFilm(filmID, listType, username) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: json.stringify({
+    body: JSON.stringify({
       filmID: filmID,
       list: listType,
       username: username,
@@ -74,6 +74,24 @@ form.addEventListener("submit", searchTMDB);
 
 //for the Game
 
+function splitIntoWords(text) {
+  return text.split(" ").filter((word) => word);
+}
+
+function calculateAccuracy(userGuessWords, fullQuoteWords) {
+  let correctWords = 0;
+
+  for (let i = 0; i < fullQuoteWords.length; i++) {
+    if (
+      userGuessWords[i] &&
+      userGuessWords[i].toLowerCase() === fullQuoteWords[i].toLowerCase()
+    ) {
+      correctWords++;
+    }
+  }
+  return (correctWords / fullQuoteWords.length) * 100;
+}
+
 async function startGame() {
   const response = await fetch(`http://localhost:8080/random-quote`);
   const data = await response.json();
@@ -83,39 +101,40 @@ async function startGame() {
   const firstWord = words[0];
   const lastWord = words[words.length - 1];
 
-  const clue = document.getElementById("quote-clue");
-  clueElement.textContent = `Clue: ${firstWord} ... ${lastWord}`;
+  const prompt = document.getElementById("quote-prompt");
+  prompt.textContent = `Clue: ${firstWord} ... ${lastWord}`;
 
-  const form = document.getElementById("quote-form");
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const userGuess = document
-      .getElementById("quote-guess")
-      .ariaValueMax.trim();
-
-    const fullQuoteWords = splitIntoWords(fullQuote);
-    const userGuess = splitIntoWords(userGuess);
-
-    const accuracy = calculateAccuract(userGuess, fullQuoteWords);
-
-    const feedback = document.getElementById("feedback");
-    if (accuracy >= 90) {
-      feedback.textContent = `Correct! Well Done!`;
-    } else {
-      feedback.textContent = `Incorrect! The correct answer is: "${fullQuote}"`;
-    }
-    form.style.display = "none";
-    document.getElementById("new-quote-button").style.display = "block";
-  });
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("quote-guess").value = "";
 }
+
+const quizForm = document.getElementById("quote-user-answer");
+quizForm.addEventListener("Submit", function (event) {
+  event.preventDefault();
+
+  const userGuess = document.getElementById("quote-guess").value;
+  const fullQuoteWords = splitIntoWords(fullQuote);
+  const userGuessWords = splitIntoWords(userGuess);
+
+  const accuracy = calculateAccuracy(userGuessWords, fullQuoteWords);
+
+  const feedback = document.getElementById("feedback");
+  if (accuracy >= 90) {
+    feedback.textContent = `Correct! Well Done!`;
+  } else {
+    feedback.textContent = `Incorrect! The correct answer is: "${fullQuote}"`;
+  }
+  quizForm.style.display = "none";
+  document.getElementById("new-quote-button").style.display = "block";
+});
 
 //to start another game
 
 function newGame() {
   document.getElementById("feedback").textContent = "";
   document.getElementById("quote-guess").value = "";
-  document.getElementById("quote-guess-form").style.display = "block";
-  document.getElementById("new-quote-btn").style.display = "none";
+  document.getElementById("quote-user-answer").style.display = "block";
+  document.getElementById("new-quote-button").style.display = "none";
   startGame();
 }
 

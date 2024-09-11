@@ -113,11 +113,12 @@ app.get("/quotes", async function (request, response) {
   response.status(200).json(result.rows);
 });
 
-app.get("/randomQuote", async function (request, response) {
+app.get("/random-quote", async function (request, response) {
   const result = await db.query(
     "SELECT * FROM movie_quotes ORDER BY RANDOM() LIMIT 1"
   );
-  response.status(200).json(result.row[0]);
+  console.log(result.rows[0]);
+  response.status(200).json(result.rows[0]);
 });
 
 app.listen(8080, function () {
