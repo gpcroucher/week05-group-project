@@ -10,6 +10,8 @@ window.onload = function () {
 };
 
 const serverURL = "Http://localhost";
+//genreMap is a key-value pair of ID : genre, for getting genre names as movieObject gets array of genres as IDs.
+//key-value pair from TMDB's genre database
 const genreMap = {
   28: "Action",
   12: "Adventure",
@@ -71,19 +73,23 @@ function removeFilm(filmID) {
 
 function createCard(movieObject) {
   const movieContainer = document.createElement("div"); // Card container
+
   const movieTitle = document.createElement("h2"); //create title element
   movieTitle.innerText = movieObject.title; // add text from title object
   movieTitle.classList.add("card-title"); // add class to title element
+
   const movieRdate = document.createElement("h3"); // create release date element
   movieRdate.classList.add("release-date"); // add release-date class
   movieRdate.innerText = movieObject.release_date;
+
   const moviePoster = document.createElement("img"); // create img element for poster
   moviePoster.src =
     "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + movieObject.poster_path; // add src to img element
   moviePoster.classList.add("movie-poster"); // add class to img element
+
   const movieOverview = document.createElement("h3"); // create overview element
   movieOverview.innerText = movieObject.overview; // add overview text to element
-  //TODO: swap genre for genre IDs to display genre on page
+
   const movieGenreIDs = movieObject.genre_ids; // assign genre array for specific movie
   const movieGenresContainer = document.createElement("div"); //create container for genres
   movieGenresContainer.classList.add("genre-container"); //add class
@@ -93,13 +99,17 @@ function createCard(movieObject) {
     genreText.innerText = genreMap[genre] + " ";
     movieGenresContainer.appendChild(genreText);
   }); //get genre name from genre map and append each genre to the genre container div
+
   const movieRatingContainer = document.createElement("div"); //create div to hold rating and label
+
   const movieRatingLabel = document.createElement("h2"); //create label element
   movieRatingLabel.classList.add("rating-label"); //adds rating-label class to the element
   movieRatingLabel.innerText = "Rating: "; //add text to label
   const movieRatingContent = document.createElement("h3"); //create rating content element
+
   movieRatingContent.classList.add("rating-content"); //add rating-content class to element
   movieRatingContent.innerText = movieObject.vote_average; //rating from movieObject.
+
   movieRatingContainer.appendChild(movieRatingLabel); //add label to ratingcontainer
   movieRatingContainer.appendChild(movieRatingContent); // add content to ratingcontainer
 
@@ -126,7 +136,28 @@ function createCard(movieObject) {
   movieContainer.appendChild(movieGenresContainer);
   movieContainer.appendChild(movieRatingContainer);
   movieContainer.appendChild(buttonContainer);
+
   return movieContainer;
+}
+
+//Creates cards with addtional delete buttons to remove from a user's lists'.
+//TODO: we need a way to put the ID of the movie in the card so we know what movie to remove... I think 0.o
+function createUserSearchCard(movieContainer) {
+  const currentMovieContainer = createCard(movieContainer);
+  const deleteButtonContainer = document.createElement("div");
+  const deleteWatchlistButton = document.createElement("button");
+  const deleteSeenlistButton = document.createElement("button");
+
+  deleteWatchlistButton.classList.add("delete-button");
+  deleteWatchlistButton.innerText = "Remove from Watchlist";
+  deleteSeenlistButton.classList.add("delete-button");
+  deleteSeenlistButton.innerText = "Remove from Seenlist";
+
+  deleteButtonContainer.appendChild(deleteWatchlistButton);
+  deleteButtonContainer.appendChild(deleteSeenlistButton);
+  currentMovieContainer.appendChild(deleteButtonContainer);
+
+  return currentMovieContainer;
 }
 //Function implemented by Will
 async function addToWatch(filmID) {
@@ -181,8 +212,6 @@ async function searchTMDB(event) {
     const card = createCard(movie);
     searchResults.appendChild(card);
   });
-  // TODO: write displaySearchResults() function [cards]
-  // displaySearchResults(data);
   searchForm.reset();
   return data;
 }
