@@ -314,7 +314,7 @@ function calculateAccuracy(userGuessWords, fullQuoteWords) {
 }
 let fullQuote;
 async function startGame() {
-  const response = await fetch(`http://${serverURL}/random-quote`);
+  const response = await fetch(`${serverURL}/random-quote`);
   const data = await response.json();
   fullQuote = data.quote;
 
