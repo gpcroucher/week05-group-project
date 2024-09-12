@@ -273,7 +273,19 @@ async function searchTMDB(event) {
   }
 
   const data = await response.json();
-  console.log(data);
+  console.log("Search Data:", data);
+
+  const bannerElement = document.getElementById("bannerImage");
+  // const bannerURL = data[0]
+  for (const movie of data) {
+    if (movie.backdrop_path != null) {
+      bannerElement.src =
+        "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces" +
+        movie.backdrop_path;
+      break;
+    }
+  }
+
   data.forEach((movie) => {
     const card = createCard(movie);
     searchResults.appendChild(card);
@@ -322,14 +334,19 @@ quizForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const userGuess = document.getElementById("quote-guess").value;
-  const fullQuoteWords = splitIntoWords(fullQuote);
-  const userGuessWords = splitIntoWords(userGuess);
+  // stack overflow regex magic
+  const fullQuoteWords = splitIntoWords(
+    fullQuote.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+  );
+  const userGuessWords = splitIntoWords(
+    userGuess.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+  );
 
   const accuracy = calculateAccuracy(userGuessWords, fullQuoteWords);
   console.log(accuracy);
 
   const feedback = document.getElementById("feedback");
-  if (accuracy >= 90) {
+  if (accuracy >= 80) {
     feedback.textContent = `Correct! Well Done!`;
   } else {
     feedback.textContent = `Incorrect! The correct answer is: "${fullQuote}"`;
