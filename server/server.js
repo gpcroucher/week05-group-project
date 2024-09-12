@@ -18,7 +18,7 @@ app.post("/add", async (request, response) => {
 
   // check the DB for a record matching the given username
   const userCheck = await db.query(
-    `SELECT id FROM week05projectusers WHERE username = $1`,
+    `SELECT * FROM week05projectusers WHERE username = $1`,
     [username]
   );
   // if there is no record matching the given username, then create one
@@ -27,9 +27,15 @@ app.post("/add", async (request, response) => {
       username,
     ]);
   }
+  console.log(userCheck);
 
   // add the film to the relevant array in the user's record
   if (list == "seen") {
+    if (userCheck.rowCount > 0 && userCheck.rows[0].seenlist.includes(filmID)) {
+      console.log("already in this list");
+      return;
+    }
+
     const post = await db.query(
       `
       UPDATE week05projectusers
@@ -39,6 +45,14 @@ app.post("/add", async (request, response) => {
     );
     response.json(post);
   } else if (list == "watch") {
+    if (
+      userCheck.rowCount > 0 &&
+      userCheck.rows[0].watchlist.includes(filmID)
+    ) {
+      console.log("already in this list");
+      return;
+    }
+
     const post = await db.query(
       `
       UPDATE week05projectusers
