@@ -11,7 +11,6 @@ window.onload = function () {
   }
 };
 
-
 //genreMap is a key-value pair of ID : genre, for getting genre names as movieObject gets array of genres as IDs.
 //key-value pair from TMDB's genre database
 const genreMap = {
@@ -218,11 +217,7 @@ async function searchTMDB(event) {
   return data;
 }
 
-
-form.addEventListener("submit", searchTMDB);
-
 //for the Game
-
 function splitIntoWords(text) {
   return text.split(" ").filter((word) => word);
 }
@@ -307,5 +302,3 @@ function notifyUser(notification) {
     notificationText.innerText = "";
   }, 3000);
 }
-
-
