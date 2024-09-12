@@ -7,7 +7,7 @@ window.onload = function () {
     document.getElementById("usernamePrompt").innerText =
       "Welcome, " + username + "!";
   } else {
-    username = prompt("Please enter your username:");
+    username = prompt("Please enter your username:").toLowerCase(); //Jon did this please change if it doesnt work
   }
 };
 
@@ -30,10 +30,9 @@ const genreMap = {
   10749: "Romance",
   878: "Science Fiction",
   10770: "TV Movie",
-  9648: "Mystery",
   53: "Thriller",
   10752: "War",
-  9648: "Western",
+  37: "Western",
 };
 const searchForm = document.getElementById("searchform");
 const searchResults = document.getElementById("search-results");
@@ -45,7 +44,7 @@ function createDeleteButton(filmID, listType, username) {
   deleteButton.textContent = "Delete";
 
   deleteButton.addEventListener("click", async function () {
-    await deleteFilm(filmID, listType, username);
+    await deleteFilm(filmID, listType, username.lowerCase()); //Jon did this please change if it doesnt work
     removeFilm(filmID);
   });
   return deleteButton;
@@ -74,14 +73,17 @@ function removeFilm(filmID) {
 
 function createCard(movieObject) {
   const movieContainer = document.createElement("div"); // Card container
+  movieContainer.classList.add("movie-container");
+  movieContainer.setAttribute("data-film-id", movieObject.id);
 
   const movieTitle = document.createElement("h2"); //create title element
   movieTitle.innerText = movieObject.title; // add text from title object
+  movieTitle.classList.add("lato-bold");
   movieTitle.classList.add("card-title"); // add class to title element
 
   const movieRdate = document.createElement("h3"); // create release date element
   movieRdate.classList.add("release-date"); // add release-date class
-  movieRdate.innerText = movieObject.release_date;
+  movieRdate.innerText = "Released: " + movieObject.release_date;
 
   const moviePoster = document.createElement("img"); // create img element for poster
   moviePoster.src =
@@ -89,6 +91,8 @@ function createCard(movieObject) {
   moviePoster.classList.add("movie-poster"); // add class to img element
 
   const movieOverview = document.createElement("h3"); // create overview element
+  movieOverview.classList.add("lato-regular");
+  movieOverview.classList.add("movie-overview");
   movieOverview.innerText = movieObject.overview; // add overview text to element
 
   const movieGenreIDs = movieObject.genre_ids; // assign genre array for specific movie
@@ -96,12 +100,14 @@ function createCard(movieObject) {
   movieGenresContainer.classList.add("genre-container"); //add class
   movieGenreIDs.forEach((genre) => {
     const genreText = document.createElement("h3");
+    genreText.classList.add("lato-regular");
     genreText.classList.add("genre-text");
     genreText.innerText = genreMap[genre] + " ";
     movieGenresContainer.appendChild(genreText);
   }); //get genre name from genre map and append each genre to the genre container div
 
   const movieRatingContainer = document.createElement("div"); //create div to hold rating and label
+  movieRatingContainer.classList.add("movie-rating-container");
 
   const movieRatingLabel = document.createElement("h2"); //create label element
   movieRatingLabel.classList.add("rating-label"); //adds rating-label class to the element
@@ -115,14 +121,17 @@ function createCard(movieObject) {
   movieRatingContainer.appendChild(movieRatingContent); // add content to ratingcontainer
 
   const buttonContainer = document.createElement("div"); //container for buttons
+  buttonContainer.classList.add("button-container");
 
   const addToWatchButton = document.createElement("button"); //create button to add to watch list
+  addToWatchButton.classList.add("add-button");
   addToWatchButton.innerText = "Add to watchlist"; //give the button some text
   addToWatchButton.addEventListener("click", () => {
     addToWatch(movieObject.id);
   }); //add event listener to add movie to watch list
 
   const addToSeenButton = document.createElement("button"); //create button to add to seen list
+  addToSeenButton.classList.add("add-button");
   addToSeenButton.innerText = "Add to seen"; //give the button some text
   addToSeenButton.addEventListener("click", () => {
     addToSeen(movieObject.id);
@@ -146,14 +155,27 @@ function createCard(movieObject) {
 function createUserSearchCard(movieContainer) {
   const currentMovieContainer = createCard(movieContainer);
   const deleteButtonContainer = document.createElement("div");
+  deleteButtonContainer.classList.add("button-container");
   const deleteWatchlistButton = document.createElement("button");
-  const deleteSeenlistButton = document.createElement("button");
-
+  //JON
   deleteWatchlistButton.classList.add("delete-button");
   deleteWatchlistButton.innerText = "Remove from Watchlist";
+  // JON
+  deleteWatchlistButton.addEventListener("click", function () {
+    const filmID = currentMovieContainer.getAttribute("data-film-id");
+    deleteFilm(filmID, "watchlist", username);
+  });
+  // JON
+  const deleteSeenlistButton = document.createElement("button");
   deleteSeenlistButton.classList.add("delete-button");
   deleteSeenlistButton.innerText = "Remove from Seenlist";
 
+  deleteSeenlistButton.addEventListener("click", function () {
+    const filmID = currentMovieContainer.getAttribute("data-film-id");
+    deleteFilm(filmID, "seenlist", username);
+  });
+
+  // Marc
   deleteButtonContainer.appendChild(deleteWatchlistButton);
   deleteButtonContainer.appendChild(deleteSeenlistButton);
   currentMovieContainer.appendChild(deleteButtonContainer);
