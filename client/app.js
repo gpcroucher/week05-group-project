@@ -218,6 +218,81 @@ async function searchTMDB(event) {
   return data;
 }
 
+
+form.addEventListener("submit", searchTMDB);
+
+//for the Game
+
+function splitIntoWords(text) {
+  return text.split(" ").filter((word) => word);
+}
+
+function calculateAccuracy(userGuessWords, fullQuoteWords) {
+  let correctWords = 0;
+
+  for (let i = 0; i < fullQuoteWords.length; i++) {
+    if (
+      userGuessWords[i] &&
+      userGuessWords[i].toLowerCase() === fullQuoteWords[i].toLowerCase()
+    ) {
+      correctWords++;
+    }
+  }
+  return (correctWords / fullQuoteWords.length) * 100;
+}
+let fullQuote;
+async function startGame() {
+  const response = await fetch(`http://localhost:8080/random-quote`);
+  const data = await response.json();
+  fullQuote = data.quote;
+
+  const words = fullQuote.split(" ");
+  const firstWord = words[0];
+  const lastWord = words[words.length - 1];
+
+  const prompt = document.getElementById("quote-prompt");
+  prompt.textContent = `Clue: ${firstWord} ... ${lastWord}`;
+
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("quote-guess").value = "";
+}
+
+const quizForm = document.getElementById("quote-user-answer");
+quizForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const userGuess = document.getElementById("quote-guess").value;
+  const fullQuoteWords = splitIntoWords(fullQuote);
+  const userGuessWords = splitIntoWords(userGuess);
+
+  const accuracy = calculateAccuracy(userGuessWords, fullQuoteWords);
+  console.log(accuracy);
+
+  const feedback = document.getElementById("feedback");
+  if (accuracy >= 90) {
+    feedback.textContent = `Correct! Well Done!`;
+  } else {
+    feedback.textContent = `Incorrect! The correct answer is: "${fullQuote}"`;
+  }
+  quizForm.style.display = "none";
+  document.getElementById("new-quote-button").style.display = "block";
+});
+
+//to start another game
+
+function newGame() {
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("quote-guess").value = "";
+  document.getElementById("quote-user-answer").style.display = "block";
+  document.getElementById("new-quote-button").style.display = "none";
+  startGame();
+}
+
+document.getElementById("new-quote-button").addEventListener("click", newGame);
+
+startGame();
+searchForm.addEventListener("submit", searchTMDB);
+
 function notifyUser(notification) {
   const notificationContainer = document.getElementById(
     "notification-container"
@@ -233,4 +308,4 @@ function notifyUser(notification) {
   }, 3000);
 }
 
-searchForm.addEventListener("submit", searchTMDB);
+
