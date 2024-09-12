@@ -1,13 +1,15 @@
 const serverURL = import.meta.env.VITE_SERVER_URL;
 
 // Jon did this =)
-let username = "";
+let username = getCookie("username");
 window.onload = function () {
-  if (username != "") {
+  if (username != "" && username != null) {
     document.getElementById("usernamePrompt").innerText =
       "Welcome, " + username + "!";
   } else {
     username = prompt("Please enter your username:");
+    setCookie(username);
+    console.log(username);
   }
 };
 
@@ -302,3 +304,42 @@ function notifyUser(notification) {
     notificationText.innerText = "";
   }, 3000);
 }
+
+function setCookie(name) {
+  const d = new Date();
+  d.setTime(d.getTime() + 7 * 24 * 60 * 60 * 1000);
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = "username=" + name + ";" + expires;
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const cookiesArray = document.cookie.split(";");
+
+  for (let i = 0; i < cookiesArray.length; i++) {
+    let cookie = cookiesArray[i].trim();
+    if (cookie.indexOf(nameEQ) === 0) {
+      return cookie.substring(nameEQ.length, cookie.length);
+    }
+  }
+  return null;
+}
+
+// window.saveUsername = function () {
+//   const username = prompt("Please enter your username:");
+//   if (username) {
+//     setCookie(username);
+//     console.log("Current cookies: " + document.cookie);
+//     alert("Username saved: " + username);
+//   }
+// };
+
+// window.displayUsername = function () {
+//   const username = getCookie("username");
+//   const displayArea = document.getElementById("displayArea");
+//   if (username) {
+//     displayArea.innerText = "Saved Username: " + username;
+//   } else {
+//     displayArea.innerText = "No username found.";
+//   }
+// };
