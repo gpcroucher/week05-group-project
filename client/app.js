@@ -39,6 +39,44 @@ const genreMap = {
 const searchForm = document.getElementById("searchform");
 const searchResults = document.getElementById("search-results");
 
+const displayWatchlistButton = document.getElementById("displayWatchlist");
+const displaySeenlistButton = document.getElementById("displaySeenlist");
+
+displayWatchlistButton.addEventListener("click", handleDisplayWatchlist);
+displaySeenlistButton.addEventListener("click", handleDisplaySeenlist);
+
+async function handleDisplayWatchlist() {
+  searchResults.innerHTML = "";
+  const watchlist = await fetch(
+    `${serverURL}/list?list=watch&user=${username}`
+  );
+  const watchlistData = await watchlist.json();
+  console.log(watchlistData.watchlist);
+
+  watchlistData.watchlist.forEach(async (filmID) => {
+    const details = await fetch(`${serverURL}/film?filmid=${filmID}`);
+    const detailsData = await details.json();
+    console.log("detailsData:", detailsData);
+    const card = createUserSearchCard(detailsData);
+    searchResults.appendChild(card);
+  });
+}
+
+async function handleDisplaySeenlist() {
+  searchResults.innerHTML = "";
+  const seenlist = await fetch(`${serverURL}/list?list=seen&user=${username}`);
+  const seenlistData = await seenlist.json();
+  console.log("Seenlist:", seenlistData.seenlist);
+
+  seenlistData.seenlist.forEach(async (filmID) => {
+    const details = await fetch(`${serverURL}/film?filmid=${filmID}`);
+    const detailsData = await details.json();
+    console.log("detailsData:", detailsData);
+    const card = createUserSearchCard(detailsData);
+    searchResults.appendChild(card);
+  });
+}
+
 //function to create delete button
 
 function createDeleteButton(filmID, listType, username) {
@@ -164,6 +202,7 @@ function createUserSearchCard(movieContainer) {
   deleteWatchlistButton.innerText = "Remove from Watchlist";
   // JON
   deleteWatchlistButton.addEventListener("click", function () {
+    searchResults.removeChild(currentMovieContainer);
     const filmID = currentMovieContainer.getAttribute("data-film-id");
     deleteFilm(filmID, "watchlist", username);
   });
@@ -173,6 +212,7 @@ function createUserSearchCard(movieContainer) {
   deleteSeenlistButton.innerText = "Remove from Seenlist";
 
   deleteSeenlistButton.addEventListener("click", function () {
+    searchResults.removeChild(currentMovieContainer);
     const filmID = currentMovieContainer.getAttribute("data-film-id");
     deleteFilm(filmID, "seenlist", username);
   });

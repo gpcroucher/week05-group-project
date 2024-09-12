@@ -77,7 +77,11 @@ app.get("/film", async (request, response) => {
     const result = await fetch(
       `https://api.themoviedb.org/3/movie/${filmID}?api_key=${process.env.TMDB_API_KEY}`
     );
+    console.log(
+      `https://api.themoviedb.org/3/movie/${filmID}?api_key=${process.env.TMDB_API_KEY}`
+    );
     const resultData = await result.json();
+    console.log(resultData);
     const genres = [];
     for (const genre of resultData.genres) {
       genres.push(genre.id);
@@ -85,7 +89,7 @@ app.get("/film", async (request, response) => {
     console.log(`${genres}`);
     const year = resultData.release_date.split("-")[0];
     await db.query(
-      `INSERT INTO week05projectfilms (id, title, year, genres) VALUES (
+      `INSERT INTO week05projectfilms (id, title, year, genre_ids) VALUES (
       ${resultData.id},
       '${resultData.title}',
       ${year},
@@ -96,7 +100,7 @@ app.get("/film", async (request, response) => {
       id: resultData.id,
       title: resultData.title,
       year: year,
-      genres: genres,
+      genre_ids: genres,
     };
     response.json(newObject);
   } else {
@@ -145,13 +149,13 @@ app.get("/list", async function (request, response) {
       `SELECT seenlist FROM week05projectusers WHERE username = $1`,
       [query.user]
     );
-    response.json(seenlist.rows);
+    response.json(seenlist.rows[0]);
   } else if (query.list === "watch") {
     const watchlist = await db.query(
       `SELECT watchlist FROM week05projectusers WHERE username = $1`,
       [query.user]
     );
-    response.json(watchlist.rows);
+    response.json(watchlist.rows[0]);
   } else {
     response.status(400).json({ error: "invalid list type" });
   }

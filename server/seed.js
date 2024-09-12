@@ -28,7 +28,7 @@ CREATE TABLE week05projectusers (
   console.log("Finished making table 'week05projectusers'");
 
   await db.query(`INSERT INTO week05projectusers (username, watchlist, seenlist) VALUES
-  ('gpcroucher', ARRAY[32], ARRAY[12])`);
+  ('gpcroucher', ARRAY[11], ARRAY[12])`);
   await db.query(`
   INSERT INTO week05projectusers (username, watchlist, seenlist) VALUES
   ('jonlee', ARRAY[12], ARRAY[15])`);
@@ -58,15 +58,15 @@ CREATE TABLE week05projectfilms (
     id INT PRIMARY KEY,
     title TEXT,
     year INT,
-    genres INT[]
+    genre_ids INT[]
   )`);
   console.log("Finished making table 'week05projectfilms'");
 
   await db.query(
-    `INSERT INTO week05projectfilms (id, title, year, genres) VALUES (769, 'Goodfellas', 1990, ARRAY[18, 80])`
+    `INSERT INTO week05projectfilms (id, title, year, genre_ids) VALUES (769, 'Goodfellas', 1990, ARRAY[18, 80])`
   );
   await db.query(
-    `INSERT INTO week05projectfilms (id, title, year, genres) VALUES (11, 'Star Wars', 1977, ARRAY[12, 28, 878])`
+    `INSERT INTO week05projectfilms (id, title, year, genre_ids) VALUES (11, 'Star Wars', 1977, ARRAY[12, 28, 878])`
   );
   const films = await db.query(`
     SELECT * from week05projectfilms`);
