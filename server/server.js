@@ -13,28 +13,56 @@ const db = new pg.Pool({
 });
 
 app.post("/add", async (request, response) => {
+  const { list, filmID, username } = request.body;
   console.log("request.body", request.body);
 
-  if (request.body.list == "seen") {
+  // check the DB for a record matching the given username
+  const userCheck = await db.query(
+    `SELECT * FROM week05projectusers WHERE username = $1`,
+    [username]
+  );
+  // if there is no record matching the given username, then create one
+  if (userCheck.rowCount === 0) {
+    db.query(`INSERT INTO week05projectusers (username) VALUES ($1)`, [
+      username,
+    ]);
+  }
+  console.log(userCheck);
+
+  // add the film to the relevant array in the user's record
+  if (list == "seen") {
+    if (userCheck.rowCount > 0 && userCheck.rows[0].seenlist.includes(filmID)) {
+      console.log("already in this list");
+      return;
+    }
+
     const post = await db.query(
       `
       UPDATE week05projectusers
       SET seenlist = ARRAY_APPEND(seenlist, $1) 
       WHERE username = $2`,
-      [request.body.filmID, request.body.username]
+      [filmID, username]
     );
     response.json(post);
-  } else if (request.body.list == "watch") {
+  } else if (list == "watch") {
+    if (
+      userCheck.rowCount > 0 &&
+      userCheck.rows[0].watchlist.includes(filmID)
+    ) {
+      console.log("already in this list");
+      return;
+    }
+
     const post = await db.query(
       `
       UPDATE week05projectusers
       SET watchlist = ARRAY_APPEND(watchlist, $1) 
       WHERE username = $2`,
-      [request.body.filmID, request.body.username]
+      [filmID, username]
     );
     response.json(post);
   } else {
-    response.status(400).json({ error: "invalid list type" });
+    response.status(400).json({ error: "Invalid list type" });
   }
 });
 
