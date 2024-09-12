@@ -19,21 +19,31 @@
   <body>
     <div class="websiteContainer lato-bold">
       <section class="menu">
-        <div class="logo"><a href="#"><img src="./assets/logo.png" alt="Over rated company logo"/></a></div>
-        <div id="search-bar-container">
-          <form id="searchform" class="searchform">
-            <input type="text" id="searchinput" name="searchinput" size="50"/>
-            <button type="submit" id="searchsubmit">Search</button>
-          </form>
-        </div><!--  Search Bar container -->
 
+        <div class="logo"><a href="#"><img src="./assets/logo.png" alt="Over rated company logo"/></a></div>
+
+        <!-- <div class="navigation">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Movies</a></li> 
+          </ul>
+        </div> -->
+      <h1 id="usernamePrompt">Welcome!</h1>
+      <div id="search-bar-container">
+        <form id="searchform" class="searchform">
+          <input type="text" id="searchinput" name="searchinput" size="50"/>
+          <button type="submit" id="searchsubmit">Search</button>
+        </form>
+      </div><!--  Search Bar container -->
       </section><!--  Menu container -->
       <section class="featuredMovies"><img src="./assets/1.jpg" alt="featured movies for the week">
         <div class="imageSliderNavigation"></div><!--  Controling the main header images container -->
         
       </section><!--  Featured Movies container -->
-      <section class="movieDisplay"></section><!--  Where the movie cards get displayed container -->
+
+      <section class="movieDisplay" id="search-results"></section><!--  Where the movie cards get displayed container -->
       <footer>Copyright &copy; Over Rated Production</footer>
+
     </section> <!--  Web container -->
     </div>
   </body>
