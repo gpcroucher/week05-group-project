@@ -128,6 +128,7 @@ function createCard(movieObject) {
   const moviePoster = document.createElement("img"); // create img element for poster
   moviePoster.src =
     "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + movieObject.poster_path; // add src to img element
+  moviePoster.alt = "Movie Poster";
   moviePoster.classList.add("movie-poster"); // add class to img element
 
   const movieOverview = document.createElement("h3"); // create overview element

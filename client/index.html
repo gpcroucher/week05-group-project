@@ -22,10 +22,10 @@
       <button onclick="displayUsername()">cookie display button</button>
       <p id="displayArea"></p>
     </div> -->
-     <div id="notification-container" class="hidden">
-      <h2 id="notification-text"></h2>
-    </div>
     <div class="websiteContainer lato-bold">
+      <div id="notification-container" class="hidden">
+        <h2 id="notification-text"></h2>
+      </div>
       <section class="menu">
 
         <div class="logo"><a href="#"><img src="./assets/logo.png" alt="Over rated company logo"/></a></div>
@@ -48,26 +48,26 @@
         <div class="imageSliderNavigation"></div><!--  Controling the main header images container -->
         
       </section><!--  Featured Movies container -->
+      <div id="game-container">
+        <p id="quote-prompt"></p>
+        <form id="quote-user-answer">
+          <input
+            type="text"
+            id="quote-guess"
+            placeholder="Finish the quote"
+            required
+          />
+          <button type="submit">Submit</button>
+        </form>
+        <p id="feedback"></p>
+        <button id="new-quote-button" style="display: none">Try again</button>
+      </div>
       <button id="displayWatchlist">Show Watchlist</button>
       <button id="displaySeenlist">Show Seenlist</button>
+</body>
       <section class="movieDisplay" id="search-results"></section><!--  Where the movie cards get displayed container -->
       <footer>Copyright &copy; Over Rated Production</footer>
 
     </section> <!--  Web container -->
     </div>
-    <div id="game-container">
-      <p id="quote-prompt"></p>
-      <form id="quote-user-answer">
-        <input
-          type="text"
-          id="quote-guess"
-          placeholder="Finish the quote"
-          required
-        />
-        <button type="submit">Submit</button>
-      </form>
-      <p id="feedback"></p>
-      <button id="new-quote-button" style="display: none">Try again</button>
-    </div>
-  </body>
 </html>
